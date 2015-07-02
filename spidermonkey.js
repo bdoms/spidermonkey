@@ -1,16 +1,19 @@
 const Browser = require('zombie');
 
 
-var SpiderMonkey = function(url) {
+var SpiderMonkey = function(url, verbose) {
 
     var self = this;
     self.browser = new Browser({'features': 'scripts css img iframe'});
     self.domain = url;
     self.found_urls = [url];
     self.completed_urls = {};
-    self.waiting = '';
-    self.delay = 1000; // time to wait in ms
     self.referals = {};
+    self.verbose = verbose;
+    self.waiting = '';
+    self.delay = 800; // time to wait in ms
+    self.i = 0;
+    
 
     self.canonicalURL = function(url) {
         // reduce the URL down to a single canonical version per page
@@ -95,7 +98,16 @@ var SpiderMonkey = function(url) {
             var url = self.found_urls[0];
             url = self.canonicalURL(url);
             if (self.waiting != url) {
-                console.log('Crawling', url);
+                self.i += 1;
+                if (self.verbose) {
+                    console.log('Crawling', url);
+                }
+                else {
+                    var total_pages = self.found_urls.length + self.i - 1;
+                    process.stdout.clearLine(); // clear current text
+                    process.stdout.cursorTo(0); // move cursor to beginning of line
+                    process.stdout.write('Crawling page ' + self.i.toString() + ' of ' + total_pages.toString());
+                }
                 self.crawlPage(url);
             }
             else {
@@ -118,13 +130,20 @@ var SpiderMonkey = function(url) {
                     }
                 }
             }
-            console.log('Fetched ' + total.toString() + ' URL(s)');
+
+            if (!self.verbose) {
+                process.stdout.write('\n');
+            }
+
+            console.log('Fetched ' + total.toString() + ' URL(s) total');
             if (errors.length > 0) {
                 console.log('With ' + errors.length.toString() + ' error(s):');
                 for (var i=0; i < errors.length; i++) {
                     var error = errors[i];
                     console.log(error[0], error[1]);
-                    //console.log('  Refered by', self.referals[error[1]]);
+                    if (self.verbose) {
+                        console.log('  Refered by', self.referals[error[1]]);
+                    }
                 }
             }
             else {
@@ -137,7 +156,21 @@ var SpiderMonkey = function(url) {
 
 if (!module.parent) {
     // coerce url into a domain even if it's just a host
-    var url = process.argv.slice(2);
+    var url = '';
+    var verbose = false;
+    for (var i=0; i < process.argv.length; i++) {
+        var arg = process.argv[i];
+        if (arg.indexOf('-') == 0) {
+            // option
+            if (arg == '-v') {
+                verbose = true;
+            }
+        }
+        else {
+            url = arg;
+        }
+    }
+
     if (url.indexOf('http') != 0) {
         url = 'http://' + url;
     }
@@ -145,6 +178,6 @@ if (!module.parent) {
         url += '/';
     }
 
-    var spidermonkey = new SpiderMonkey(url);
+    var spidermonkey = new SpiderMonkey(url, verbose);
     spidermonkey.crawl();
 }

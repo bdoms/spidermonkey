@@ -30,3 +30,10 @@ Or:
 ```bash
 node --harmony spidermonkey.js http://www.example.com/
 ```
+
+### Options
+
+#### Verbose Mode
+
+Include a `-v` as a command line argument to turn on verbose mode,
+which will print much more information as the crawler does its work.

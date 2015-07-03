@@ -1,3 +1,6 @@
+Copyright &copy; 2015 [Brendan Doms](http://www.bdoms.com/)  
+Licensed under the [MIT license](http://www.opensource.org/licenses/MIT)
+
 # SpiderMonkey
 
 ## Test a site's links and resources

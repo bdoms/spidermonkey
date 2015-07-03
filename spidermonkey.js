@@ -1,5 +1,11 @@
 const Browser = require('zombie');
 
+// this only affects SSL, without it we get the following error:
+//     TypeError: unable to verify the first certificate
+// see this discussion for why it's needed (TLDR; intermediate certs are hard):
+//     https://github.com/SaltwaterC/http-request/issues/19
+process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
+
 
 var SpiderMonkey = function() {
 
@@ -71,7 +77,7 @@ var SpiderMonkey = function() {
         if (url.indexOf('http') != 0) {
             url = 'http://' + url;
         }
-        if (url.indexOf('/') != url.length - 1) {
+        if (url.substr(url.length - 1) != '/') {
             url += '/';
         }
         self.domain = url;

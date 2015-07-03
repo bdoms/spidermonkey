@@ -16,7 +16,7 @@ explaining how to do this. Then:
 npm install zombie
 ```
 
-## Run
+## Use
 
 Call it with the root domain to crawl, and if you're on an old version of Node (like on Ubuntu)
 you'll need the `harmony` flag:
@@ -43,6 +43,12 @@ which will print much more information as the crawler does its work.
 Include `-d` as a command line argument to turn on debug mode.
 This mode prints out an extreme amount of information useful for debugging,
 including everything from verbose mode.
+
+#### Allow Query Parameters
+
+By default query parameters are ignored,
+which helps reduce the amount of redundant pages being crawled.
+To turn them on include a `-q` argument.
 
 #### Logging In
 

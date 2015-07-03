@@ -14,6 +14,7 @@ var SpiderMonkey = function() {
     self.referals = {};
     self.verbose = false;
     self.debug = false;
+    self.queries = false;
     self.waiting = '';
     self.delay = 800; // time to wait in ms
     self.i = 0;
@@ -38,6 +39,9 @@ var SpiderMonkey = function() {
                 else if (key == 'd') {
                     self.verbose = true;
                     self.debug = true;
+                }
+                else if (key == 'q') {
+                    self.queries = true;
                 }
             }
             else if (arg.indexOf('=') != -1) {
@@ -83,10 +87,18 @@ var SpiderMonkey = function() {
 
     self.canonicalURL = function(url) {
         // reduce the URL down to a single canonical version per page
+        if (!self.queries) {
+            var query_index = url.indexOf('?');
+            if (query_index != -1) {
+                url = url.substring(0, query_index);
+            }
+        }
+
         var hash_index = url.indexOf('#');
         if (hash_index != -1) {
             url = url.substring(0, hash_index);
         }
+
         return url;
     };
 

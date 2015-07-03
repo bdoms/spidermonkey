@@ -37,3 +37,25 @@ node --harmony spidermonkey.js http://www.example.com/
 
 Include a `-v` as a command line argument to turn on verbose mode,
 which will print much more information as the crawler does its work.
+
+#### Logging In
+
+If you include all the following options then once all the pages that can be
+found on the domain are exhausted the crawler will attempt to login and
+continue from wherever the login form redirects to.
+The required parameters to achieve this are:
+
+ * `login=rel-path-to-login-page`
+ * `email=user@example.com`
+ * `password=pw1234`
+
+It's worth noting that the fields are assumed to be named `email` and `password` exactly.
+
+Finally, you can pass an optional `logout` parameter with a value of the relative path to log out.
+This path will be avoided until after all logged in pages are crawled.
+
+Full example:
+
+```bash
+node --harmony spidermonkey.js localhost:8080 login=user/signin email=test@example.com password=testpass logout=user/signout
+```

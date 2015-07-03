@@ -4,12 +4,16 @@ const Browser = require('zombie');
 var SpiderMonkey = function() {
 
     var self = this;
-    self.browser = new Browser({'features': 'scripts css img iframe', 'waitDuration': 30000});
+    self.browser = new Browser({
+        'features': 'scripts css img iframe',
+        'waitDuration': 30000
+    });
     self.domain = '';
     self.found_urls = [];
     self.completed_urls = {};
     self.referals = {};
     self.verbose = false;
+    self.debug = false;
     self.waiting = '';
     self.delay = 800; // time to wait in ms
     self.i = 0;
@@ -30,6 +34,10 @@ var SpiderMonkey = function() {
                 var key = arg.substr(1);
                 if (key == 'v') {
                     self.verbose = true;
+                }
+                else if (key == 'd') {
+                    self.verbose = true;
+                    self.debug = true;
                 }
             }
             else if (arg.indexOf('=') != -1) {
@@ -95,17 +103,23 @@ var SpiderMonkey = function() {
             if (found_index == -1) {
                 if (status) {
                     self.completed_urls[url] = status;
-                    //console.log('Auto completed', url, status);
+                    if (self.debug) {
+                        console.log('Auto completed', url, status);
+                    }
                 }
                 else {
                     self.found_urls.push(url);
-                    //console.log('Added', url);
+                    if (self.debug) {
+                        console.log('Added', url);
+                    }
                 }
             }
             else if (status) {
                 self.completed_urls[url] = status;
                 self.found_urls.splice(found_index, 1);
-                //console.log('Completed', url, status);
+                if (self.debug) {
+                    console.log('Completed', url, status);
+                }
             }
             if (referer) {
                 self.addReferal(url, referer);
@@ -218,7 +232,9 @@ var SpiderMonkey = function() {
         }
 
         if (self.waiting != '') {
-            //console.log('Waiting', self.waiting);
+            if (self.debug) {
+                console.log('Waiting', self.waiting);
+            }
             setTimeout(self.crawl, self.delay);
         }
         else if (self.login_path && !self.logged_in) {

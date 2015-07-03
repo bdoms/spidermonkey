@@ -35,8 +35,14 @@ node --harmony spidermonkey.js http://www.example.com/
 
 #### Verbose Mode
 
-Include a `-v` as a command line argument to turn on verbose mode,
+Include `-v` as a command line argument to turn on verbose mode,
 which will print much more information as the crawler does its work.
+
+#### Debug Mode
+
+Include `-d` as a command line argument to turn on debug mode.
+This mode prints out an extreme amount of information useful for debugging,
+including everything from verbose mode.
 
 #### Logging In
 

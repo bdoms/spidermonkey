@@ -1,4 +1,4 @@
-Copyright &copy; 2015 [Brendan Doms](http://www.bdoms.com/)  
+Copyright &copy; 2015, 2018 [Brendan Doms](http://www.bdoms.com/)  
 Licensed under the [MIT license](http://www.opensource.org/licenses/MIT)
 
 # SpiderMonkey
@@ -9,29 +9,24 @@ Licensed under the [MIT license](http://www.opensource.org/licenses/MIT)
 
 ## Setup
 
-Depends on [Zombie](http://zombie.js.org/),
-which needs a more recent version of Node than Ubuntu supports by default.
-So if you're on Ubuntu you should add the PPA. Digital Ocean has a
-[great little write up](https://www.digitalocean.com/community/tutorials/how-to-install-node-js-on-an-ubuntu-14-04-server)
-explaining how to do this. Then:
+Depends on [Zombie](http://zombie.js.org/).
 
 ```bash
-npm install zombie
+npm install
 ```
 
 ## Use
 
-Call it with the root domain to crawl, and if you're on an old version of Node (like on Ubuntu)
-you'll need the `harmony` flag:
+Call it with the root domain to crawl:
 
 ```bash
-node --harmony spidermonkey.js localhost:8080
+node spidermonkey.js localhost:8080
 ```
 
 Or:
 
 ```bash
-node --harmony spidermonkey.js http://www.example.com/
+node spidermonkey.js http://www.example.com/
 ```
 
 ### Options
@@ -72,5 +67,5 @@ This path will be avoided until after all logged in pages are crawled.
 Full example:
 
 ```bash
-node --harmony spidermonkey.js localhost:8080 login=user/signin email=test@example.com password=testpass logout=user/signout
+node spidermonkey.js localhost:8080 login=user/signin email=test@example.com password=testpass logout=user/signout
 ```

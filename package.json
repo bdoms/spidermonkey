@@ -1,0 +1,20 @@
+{
+  "name": "spidermonkey",
+  "version": "1.0.0",
+  "author": "Brendan Doms",
+  "description": "Test a site's links and resources.",
+  "homepage": "https://github.com/bdoms/spidermonkey",
+  "license": "MIT",
+  "main": "",
+  "private": false,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bdoms/spidermonkey.git"
+  },
+  "bugs": {
+    "url": "https://github.com/bdoms/spidermonkey/issues"
+  },
+  "dependencies": {
+    "zombie": "6.1.2"
+  }
+}
